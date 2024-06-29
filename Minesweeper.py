@@ -1,5 +1,6 @@
+# Minesweeper.py
 # @author: Ian Sanchez Baca
-#
+# 
 #
 
 import pygame
