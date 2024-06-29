@@ -35,27 +35,31 @@ def initBombGrid(size, bombs):
 
     return bombGrid
 
-def create_number_grid(bomb_grid):
+def initNumGrid(bomb_grid):
     size = len(bomb_grid)
-    number_grid = [[0 for _ in range(size)] for _ in range(size)]
+    numGrid = [[0 for _ in range(size)] for _ in range(size)]
     
-    for i in range(size):
+    # looping through the whole bombGrid
+    for i in range(size): 
         for j in range(size):
-            if bomb_grid[i][j] == 1:
-                for x in range(max(0, i-1), min(size, i+2)):
+             # checking if the current bombGrid position has a bomb   
+            if bomb_grid[i][j] == 1:            
+                for x in range(max(0, i-1), min(size, i+2)): 
                     for y in range(max(0, j-1), min(size, j+2)):
+                        # not really sure what min/max are doing
+                        # they sort of help so that it doesnt go out of bounds
                         if (x, y) != (i, j):
-                            number_grid[x][y] += 1
+                            numGrid[x][y] += 1
     
     print("\nPrinting numGrid!")
     for i in range(size):
-        print(number_grid[i])
+        print(numGrid[i])
     # return number_grid  
 
 
 temp = initBombGrid(EASY[0], EASY[1])
 
-create_number_grid(temp)
+initNumGrid(temp)
 
 
 while running:
