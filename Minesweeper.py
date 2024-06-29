@@ -4,11 +4,14 @@
 
 import pygame
 import random # used to randomly place bombs
+import time # only using this for debugging
 
-print("Initializing pygame.")
+# print("Initializing pygame.")
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-running = False
+screen = pygame.display.set_mode((600, 800))
+grayBG = pygame.image.load("img\GrayBG.png")
+squareBig = pygame.image.load("img\square60x60.png")
+running = True
 EASY = [10, 10] # [the size of the grid, the number of bombs]
 
 
@@ -54,13 +57,22 @@ def initNumGrid(bomb_grid):
     print("\nPrinting numGrid!")
     for i in range(size):
         print(numGrid[i])
-    # return number_grid  
+    
+    return numGrid  
 
 
-temp = initBombGrid(EASY[0], EASY[1])
+# temp = initBombGrid(EASY[0], EASY[1])
 
-initNumGrid(temp)
+# initNumGrid(temp)
 
+bombGrid = initBombGrid(EASY[0], EASY[1])
+numGrid = initNumGrid(bombGrid)
+size = len(bombGrid)
+
+print("Size:", size)
+
+# for i in range(0, size):
+#     print(i)
 
 while running:
     # leave this like this in case the user closes
@@ -73,6 +85,22 @@ while running:
     # update
 
     # render
+    screen.fill("cadetblue3")
+    # screen.blit(grayBG, (0, 100))
+    
+    for i in range(0, size):
+        for j in range(0, size):
+            screen.blit(squareBig, (i * 60, 100+(j*60)))
+
+    pygame.display.flip()
+
+    
+    
+    # time.sleep(3)
+
+    ###
+    # end while
+
 
 print("bye bye!")
 pygame.quit()
