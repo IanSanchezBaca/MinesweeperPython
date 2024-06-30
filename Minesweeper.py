@@ -8,12 +8,16 @@ import time # only using this for debugging
 
 # print("Initializing pygame.")
 pygame.init()
+pygame.display.set_caption("Minesweeper_LOL")
 screen = pygame.display.set_mode((600, 800))
 grayBG = pygame.image.load("img\GrayBG.png")
 squareBig = pygame.image.load("img\square60x60.png")
 running = True
 EASY = [10, 10] # [the size of the grid, the number of bombs]
 
+def initRevealedGrid(size):
+     revealedGrid = [[0 for _ in range(size)] for _ in range(size)]
+     return revealedGrid
 
 def initBombGrid(size, bombs):
     # creating a size x size bomb grid starting with 0
@@ -60,37 +64,60 @@ def initNumGrid(bomb_grid):
     
     return numGrid  
 
+def returnPos():
+    return pygame.mouse.get_pos()
+
 
 # temp = initBombGrid(EASY[0], EASY[1])
 
 # initNumGrid(temp)
 
+revealGrid = initRevealedGrid(EASY[0])
 bombGrid = initBombGrid(EASY[0], EASY[1])
 numGrid = initNumGrid(bombGrid)
 size = len(bombGrid)
 
 print("Size:", size)
 
-# for i in range(0, size):
-#     print(i)
+pos = returnPos()
+
 
 while running:
+    # user input
     # leave this like this in case the user closes
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # user input
+        # LeftClick = pygame.mouse.get_pressed()[0]
+        if pygame.mouse.get_pressed()[0]:            
+            pos = returnPos()
+            # saves the x and y pos in an "array"
+            # pos[0] and pos[1]
+            
+            # example
+            print("left button clicked")
+            print("OG pos X: ", pos[0], " Y: ", pos[1])
+            print("uhh: X: ", pos[0]//60, " Y: ", (pos[1]-100)//60)
+
 
     # update
+    ## Change the arrays here
+
+    x = pos[0]//60
+    y = (pos[1]-100)//60
+    # if pygame.mouse.get_pressed()[2]:    
+    #     print("uhh2: X: ", x, " Y: ", y)
+
+    
 
     # render
     screen.fill("cadetblue3")
     # screen.blit(grayBG, (0, 100))
     
-    for i in range(0, size):
-        for j in range(0, size):
-            screen.blit(squareBig, (i * 60, 100+(j*60)))
+    for x in range(0, size): # going for size rows
+        for y in range(0, size): # going for size colums
+            screen.blit(squareBig, (x * 60, 100+(y*60)))
 
     pygame.display.flip()
 
