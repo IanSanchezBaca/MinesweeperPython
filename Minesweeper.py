@@ -1,21 +1,23 @@
 # Minesweeper.py
 # @author: Ian Sanchez Baca
-# 
+# @desc: Using python library pygame to create a minesweeper game
 #
 
 import pygame
 import random # used to randomly place bombs
 import time # only using this for debugging
 
-# print("Initializing pygame.")
+### Initalization of pygame
 pygame.init()
 pygame.display.set_caption("Minesweeper_LOL")
 screen = pygame.display.set_mode((600, 800))
 grayBG = pygame.image.load("img\GrayBG.png")
-squareBig = pygame.image.load("img\square60x60.png")
+squareHidden = pygame.image.load("img\square60x60.png")
+squareShown = pygame.image.load("img\Revealed60x60.png")
 running = True
 EASY = [10, 10] # [the size of the grid, the number of bombs]
 
+### Functions
 def initRevealedGrid(size):
      revealedGrid = [[0 for _ in range(size)] for _ in range(size)]
      return revealedGrid
@@ -37,9 +39,9 @@ def initBombGrid(size, bombs):
             bombGrid[x][y] = 1
             bombsPlaced += 1
 
-    print("\nPrinting bombGrid!")
-    for i in range(size):
-        print(bombGrid[i])
+    # print("\nPrinting bombGrid!")
+    # for i in range(size):
+    #     print(bombGrid[i])
 
     return bombGrid
 
@@ -65,22 +67,32 @@ def initNumGrid(bomb_grid):
     
     return numGrid  
 
-def returnPos():
+def returnPos(): # this is only becuase I don't know how to create local variables without making it equal to something
     return pygame.mouse.get_pos()
 
 
-# temp = initBombGrid(EASY[0], EASY[1])
 
-# initNumGrid(temp)
 
+### Local variables
 revealGrid = initRevealedGrid(EASY[0])
 bombGrid = initBombGrid(EASY[0], EASY[1])
 numGrid = initNumGrid(bombGrid)
 size = len(bombGrid)
-
-print("Size:", size)
-
 pos = returnPos()
+update = False
+buttonReleased = True
+
+
+
+def printMap():
+     for x in range(0, size): # going for size rows
+        for y in range(0, size): # going for size colums
+            if not revealGrid[x][y]:
+                screen.blit(squareHidden, (x * 60, 100+(y*60)))
+            else:
+                screen.blit(squareShown, (x * 60, 100+(y*60)))
+
+
 
 
 while running:
@@ -90,47 +102,64 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # LeftClick = pygame.mouse.get_pressed()[0]
-        if pygame.mouse.get_pressed()[0]:            
-            pos = returnPos()
-            # saves the x and y pos in an "array"
-            # pos[0] and pos[1]
+        #  and buttonReleased:            
+        if event.type == pygame.MOUSEBUTTONDOWN and buttonReleased == True:
+            if pygame.mouse.get_pressed()[0]:
+                pos = returnPos()
+                # saves the x and y pos in an "array"
+                # pos[0] and pos[1]
+
+                update = True
+                buttonReleased = False
             
-            # example
-            print("left button clicked")
-            print("OG pos X: ", pos[0], " Y: ", pos[1])
-            print("uhh: X: ", pos[0]//60, " Y: ", (pos[1]-100)//60)
+                # example
+                print("left button clicked")
+                print("OG pos X: ", pos[0], " Y: ", pos[1])
+                print("uhh: X: ", pos[0]//60, " Y: ", (pos[1]-100)//60)
+        
+        # elif pygame.mouse.get_pressed()[2]:
+        #     print("Right button clicked!")
+
+        if event.type == pygame.MOUSEBUTTONUP and buttonReleased == False:
+            buttonReleased = True
+
+        
 
 
     # update
     ## Change the arrays here
-
-    x = pos[0]//60
-    y = (pos[1]-100)//60
     # if pygame.mouse.get_pressed()[2]:    
     #     print("uhh2: X: ", x, " Y: ", y)
+    
+    if update:
+        x = pos[0]//60
+        y = (pos[1]-100)//60
+        
+        if  (0 <= x <= 9) and (0 <= y <= 9):
+            revealGrid[x][y] = 1
+        else:
+            print("out of bounds!")
+        update = False
+
+
+        
+    
 
     
 
     # render
     screen.fill("cadetblue3")
-    # screen.blit(grayBG, (0, 100))
+    printMap()
     
-    for x in range(0, size): # going for size rows
-        for y in range(0, size): # going for size colums
-            screen.blit(squareBig, (x * 60, 100+(y*60)))
-
+   
     pygame.display.flip()
 
-    
-    
-    # time.sleep(3)
 
-    ###
-    # end while
+    #############
+    ### end while
 
 
-print("bye bye!")
+print("End.")
 pygame.quit()
 
 
