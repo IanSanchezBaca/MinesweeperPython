@@ -14,6 +14,7 @@ screen = pygame.display.set_mode((600, 800))
 grayBG = pygame.image.load("img\GrayBG.png")
 squareHidden = pygame.image.load("img\square60x60.png")
 squareShown = pygame.image.load("img\Revealed60x60.png")
+bombImg = pygame.image.load("img\\bomb.png")
 running = True
 EASY = [10, 10] # [the size of the grid, the number of bombs]
 
@@ -81,16 +82,37 @@ size = len(bombGrid)
 pos = returnPos()
 update = False
 buttonReleased = True
+blud = {
+    1: pygame.image.load("img\\Numbers\\one.png"),
+    2: pygame.image.load("img\\Numbers\\two.png"),
+    3: pygame.image.load("img\\Numbers\\three.png"),
+    4: pygame.image.load("img\\Numbers\\four.png"),
+    5: pygame.image.load("img\\Numbers\\five.png"),
+    6: pygame.image.load("img\\Numbers\\six.png"),
+    7: pygame.image.load("img\\Numbers\\seven.png"),
+    8: pygame.image.load("img\\Numbers\\eight.png")
+}
 
+# for x in range(0, size): # going for size rows
+#     for y in range(0, size): # going for size colums
+#         if bombGrid[x][y]:
+#             print ("bomb at ", x, y)
 
 
 def printMap():
      for x in range(0, size): # going for size rows
         for y in range(0, size): # going for size colums
-            if not revealGrid[x][y]:
+            # It was "breaking" when I didn't have the x and y like this.
+            if not revealGrid[y][x]: 
                 screen.blit(squareHidden, (x * 60, 100+(y*60)))
             else:
-                screen.blit(squareShown, (x * 60, 100+(y*60)))
+                if bombGrid[y][x]:
+                    screen.blit(bombImg, (x * 60, 100+(y*60)))
+                elif numGrid[y][x]:
+                    screen.blit(blud[numGrid[y][x]], (x * 60, 100+(y*60)))
+
+                else:
+                    screen.blit(squareShown, (x * 60, 100+(y*60)))
 
 
 
@@ -114,8 +136,8 @@ while running:
             
                 # example
                 print("left button clicked")
-                print("OG pos X: ", pos[0], " Y: ", pos[1])
-                print("uhh: X: ", pos[0]//60, " Y: ", (pos[1]-100)//60)
+                # print("OG pos X: ", pos[0], " Y: ", pos[1])
+                print("clicked: X: ", pos[0]//60, " Y: ", (pos[1]-100)//60)
         
         # elif pygame.mouse.get_pressed()[2]:
         #     print("Right button clicked!")
@@ -136,7 +158,7 @@ while running:
         y = (pos[1]-100)//60
         
         if  (0 <= x <= 9) and (0 <= y <= 9):
-            revealGrid[x][y] = 1
+            revealGrid[y][x] = 1
         else:
             print("out of bounds!")
         update = False

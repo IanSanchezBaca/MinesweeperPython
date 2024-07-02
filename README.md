@@ -28,6 +28,8 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 
 * made it so that when the user holds down the click it doesnt **"draw"** other squares
 
+* also added new images
+
 
 
 
