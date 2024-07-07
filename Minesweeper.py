@@ -15,10 +15,20 @@ grayBG = pygame.image.load("img\GrayBG.png")
 squareHidden = pygame.image.load("img\square60x60.png")
 squareShown = pygame.image.load("img\Revealed60x60.png")
 bombImg = pygame.image.load("img\\bomb.png")
+GGImg = pygame.image.load("img\\deathScreen.jpg")
 running = True
+gameOver = False
+fps = pygame.time.Clock()
+fps.tick(30)
 EASY = [10, 10] # [the size of the grid, the number of bombs]
 
 ### Functions
+def doRevealBombs(size):
+    for x in range(size):
+        for y in range(size):
+            if bombGrid[x][y]:
+                revealGrid[x][y] = 1
+
 def initRevealedGrid(size):
      revealedGrid = [[0 for _ in range(size)] for _ in range(size)]
      return revealedGrid
@@ -40,9 +50,9 @@ def initBombGrid(size, bombs):
             bombGrid[x][y] = 1
             bombsPlaced += 1
 
-    # print("\nPrinting bombGrid!")
-    # for i in range(size):
-    #     print(bombGrid[i])
+    print("\nPrinting bombGrid!")
+    for i in range(size):
+        print(bombGrid[i])
 
     return bombGrid
 
@@ -62,9 +72,9 @@ def initNumGrid(bomb_grid):
                         if (x, y) != (i, j):
                             numGrid[x][y] += 1
     
-    print("\nPrinting numGrid!")
-    for i in range(size):
-        print(numGrid[i])
+    # print("\nPrinting numGrid!")
+    # for i in range(size):
+    #     print(numGrid[i])
     
     return numGrid  
 
@@ -104,7 +114,7 @@ def printMap():
         for y in range(0, size): # going for size colums
             # It was "breaking" when I didn't have the x and y like this.
             if not revealGrid[y][x]: 
-                screen.blit(squareHidden, (x * 60, 100+(y*60)))
+                screen.blit(squareHidden, (x * 60, 100+(y*60))) # you need to do ".blit" to actually print the image to the screen
             else:
                 if bombGrid[y][x]:
                     screen.blit(bombImg, (x * 60, 100+(y*60)))
@@ -116,13 +126,16 @@ def printMap():
 
 
 
+leave = False
 
 while running:
-    # user input
+    ### user input
     # leave this like this in case the user closes
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            leave = True
+            break
 
         #  and buttonReleased:            
         if event.type == pygame.MOUSEBUTTONDOWN and buttonReleased == True:
@@ -145,10 +158,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONUP and buttonReleased == False:
             buttonReleased = True
 
-        
+    if leave:
+        break 
 
 
-    # update
+    ### update
     ## Change the arrays here
     # if pygame.mouse.get_pressed()[2]:    
     #     print("uhh2: X: ", x, " Y: ", y)
@@ -159,6 +173,9 @@ while running:
         
         if  (0 <= x <= 9) and (0 <= y <= 9):
             revealGrid[y][x] = 1
+            if bombGrid[y][x] == 1 :
+                doRevealBombs(EASY[0])
+                running = False
         else:
             print("out of bounds!")
         update = False
@@ -169,16 +186,32 @@ while running:
 
     
 
-    # render
+    ### render
     screen.fill("cadetblue3")
     printMap()
     
    
     pygame.display.flip()
 
+    ### displaying the "You died image"
+    if running == False:
+        for i in range(255):
+            GGImg.set_alpha(i)
+            screen.blit(GGImg, (44, 244))
+            pygame.display.flip()
+
+    if running == False:
+        while not gameOver:
+            for event in pygame.event.get():
+                if pygame.mouse.get_pressed()[0]:
+                    gameOver = True
+                if event.type == pygame.QUIT:
+                    gameOver = True
+
 
     #############
     ### end while
+
 
 
 print("End.")
@@ -186,4 +219,4 @@ pygame.quit()
 
 
 
-# def newGame():
+
