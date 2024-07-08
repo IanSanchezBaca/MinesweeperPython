@@ -48,9 +48,11 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 * 10x10 board
 * 10 bombs randomly spread out
 * 10 flags.
-
-![nutrualImage](writeup/nutrual.png) | ![winImage](writeup/winScreen.png) | ![loseImage](writeup/loseScreen.png)
-
+<p float="left">
+    <img src="writeup/nutrual.png" width=200 />
+    <img src="writeup/winScreen.png" width=200 />
+    <img src="writeup/loseScreen.png" width=200 />
+</p>
 
 **Currently the only game mode.**
 I did make the code somewhat modular but got lazy halfway through and made almost everything not modular
