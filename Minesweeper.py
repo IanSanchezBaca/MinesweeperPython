@@ -18,11 +18,15 @@ bombImg = pygame.image.load("img\\bomb.png")
 GGImg = pygame.image.load("img\\deathScreen.jpg")
 flagImg = pygame.image.load("img\\Flag.png")
 flagIcon = pygame.image.load("img\\flagIcon.png")
+winImg = pygame.image.load("img\\youWin.png")
+smallWinImag = pygame.transform.scale(winImg, (500, 300))
 running = True
 gameOver = False
 fps = pygame.time.Clock()
 fps.tick(30)
 EASY = [10, 10] # [the size of the grid, the number of bombs]
+
+testing = False
 
 ### Functions
 def doRevealBombs(size):
@@ -58,7 +62,7 @@ def initBombGrid(size, bombs):
 
     return bombGrid
 
-def initNumGrid(bomb_grid):
+def initNumGrid(bomb_grid): # this grid shows how many bombs are around it
     size = len(bomb_grid)
     numGrid = [[0 for _ in range(size)] for _ in range(size)]
     
@@ -91,18 +95,28 @@ def returnPos(): # this is only becuase I don't know how to create local variabl
 
 
 ### Local variables
+## bools
+update = False
+buttonReleased = True
 leave = False
 leftClick = False
 rightClick = False
+lose = False
+win = False
+
+## grids
 revealGrid = initRevealedGrid(EASY[0])
 bombGrid = initBombGrid(EASY[0], EASY[1])
 numGrid = initNumGrid(bombGrid)
+flagGrid = initFlagGrid(EASY[0])
+
+## numbers and counters
 size = len(bombGrid)
-flagGrid = initFlagGrid(size)
 pos = returnPos()
 flags = EASY[1] # num of flags
-update = False
-buttonReleased = True
+counter = 0
+winCon = 90
+
 blud = {
     0: pygame.image.load("img\\Numbers\\zero.png"),
     1: pygame.image.load("img\\Numbers\\one.png"),
@@ -122,8 +136,35 @@ blud = {
 #         if bombGrid[x][y]:
 #             print ("bomb at ", x, y)
 
+def doRevealRecursive(y,x):
+    if revealGrid[y][x]: # if its already revealed return
+        return    
+    if flagGrid[y][x]: # if theres a flag on it return
+        return
+    if bombGrid[y][x]: # if its a bomb dont reveal and return
+        return
 
-def printMap():
+    revealGrid[y][x] = 1 # reveal it if its acceptable
+    global counter 
+    counter += 1
+
+    if numGrid[y][x]: # if its a number dont reveal others
+        return
+    
+    else:
+        if y != 0:
+            doRevealRecursive(y-1, x)
+        if y != 9:
+            doRevealRecursive(y+1, x)
+        if x != 0:
+            doRevealRecursive(y, x-1)
+        if x != 9:
+            doRevealRecursive(y, x+1)
+    
+    # return
+        
+
+def printMap(): # prints the grid and shid
      for x in range(0, size): # going for size rows
         for y in range(0, size): # going for size colums
             # It was "breaking" when I didn't have the x and y like this.
@@ -140,7 +181,7 @@ def printMap():
                 else:
                     screen.blit(squareShown, (x * 60, 100+(y*60)))
 
-def printFlags():
+def printFlags(): # prints the number of flags available
     screen.blit(flagIcon, (0,0))
     screen.blit(blud[flags], (60,0))
 
@@ -198,13 +239,16 @@ while running:
         
         if  (0 <= x <= 9) and (0 <= y <= 9):
             if leftClick:
-                if flagGrid[y][x] != 1:
-                    revealGrid[y][x] = 1
+                if not flagGrid[y][x] and not bombGrid[y][x]:
+                    doRevealRecursive(y, x)
+                    # revealGrid[y][x] = 1
+                    # counter += 1
                 leftClick = False
 
-                if bombGrid[y][x] == 1 and flagGrid[y][x] != 1:
+                if bombGrid[y][x] and not flagGrid[y][x]:
                     doRevealBombs(EASY[0])
                     running = False
+                    lose = True
                 ### end if
             ### end if
             
@@ -224,6 +268,13 @@ while running:
         # else:
         #     print("out of bounds!")
         
+        if testing:
+            counter = 90
+
+        if counter == winCon:
+            win = True
+            running = False
+
         update = False
 
 
@@ -240,15 +291,23 @@ while running:
    
     pygame.display.flip()
 
-    ### displaying the "You died image"
-    if running == False:
-        for i in range(255):
-            GGImg.set_alpha(i)
-            screen.blit(GGImg, (44, 244))
-            pygame.display.flip()
+    
+    if not running:
+        if lose: ### displaying the "You died image"
+            for i in range(255):
+                GGImg.set_alpha(i)
+                screen.blit(GGImg, (44, 244))
+                pygame.display.flip()
+        elif win:
+            print("You win!") # temp
+            for i in range(255):
+                smallWinImag.set_alpha(i)
+                screen.blit(smallWinImag, (44, 244))
+                pygame.display.flip()
+            # should display the win image
 
     # game closes after screen is clicked when gameover screen is up
-    if running == False:
+    if not running:
         while not gameOver:
             for event in pygame.event.get():
                 if pygame.mouse.get_pressed()[0]:
@@ -262,7 +321,7 @@ while running:
 
 
 
-print("End.")
+# print("End.")
 pygame.quit()
 
 
