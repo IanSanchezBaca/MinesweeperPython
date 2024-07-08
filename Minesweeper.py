@@ -16,6 +16,8 @@ squareHidden = pygame.image.load("img\square60x60.png")
 squareShown = pygame.image.load("img\Revealed60x60.png")
 bombImg = pygame.image.load("img\\bomb.png")
 GGImg = pygame.image.load("img\\deathScreen.jpg")
+flagImg = pygame.image.load("img\\Flag.png")
+flagIcon = pygame.image.load("img\\flagIcon.png")
 running = True
 gameOver = False
 fps = pygame.time.Clock()
@@ -50,9 +52,9 @@ def initBombGrid(size, bombs):
             bombGrid[x][y] = 1
             bombsPlaced += 1
 
-    print("\nPrinting bombGrid!")
-    for i in range(size):
-        print(bombGrid[i])
+    # print("\nPrinting bombGrid!")
+    # for i in range(size):
+    #     print(bombGrid[i])
 
     return bombGrid
 
@@ -78,6 +80,10 @@ def initNumGrid(bomb_grid):
     
     return numGrid  
 
+def initFlagGrid(size):
+    flagGrid = [[0 for _ in range(size)] for _ in range(size)]
+    return flagGrid
+
 def returnPos(): # this is only becuase I don't know how to create local variables without making it equal to something
     return pygame.mouse.get_pos()
 
@@ -85,14 +91,20 @@ def returnPos(): # this is only becuase I don't know how to create local variabl
 
 
 ### Local variables
+leave = False
+leftClick = False
+rightClick = False
 revealGrid = initRevealedGrid(EASY[0])
 bombGrid = initBombGrid(EASY[0], EASY[1])
 numGrid = initNumGrid(bombGrid)
 size = len(bombGrid)
+flagGrid = initFlagGrid(size)
 pos = returnPos()
+flags = EASY[1] # num of flags
 update = False
 buttonReleased = True
 blud = {
+    0: pygame.image.load("img\\Numbers\\zero.png"),
     1: pygame.image.load("img\\Numbers\\one.png"),
     2: pygame.image.load("img\\Numbers\\two.png"),
     3: pygame.image.load("img\\Numbers\\three.png"),
@@ -100,7 +112,9 @@ blud = {
     5: pygame.image.load("img\\Numbers\\five.png"),
     6: pygame.image.load("img\\Numbers\\six.png"),
     7: pygame.image.load("img\\Numbers\\seven.png"),
-    8: pygame.image.load("img\\Numbers\\eight.png")
+    8: pygame.image.load("img\\Numbers\\eight.png"),
+    9: pygame.image.load("img\\Numbers\\nine.png"),
+    10: pygame.image.load("img\\Numbers\\ten.png")
 }
 
 # for x in range(0, size): # going for size rows
@@ -113,7 +127,9 @@ def printMap():
      for x in range(0, size): # going for size rows
         for y in range(0, size): # going for size colums
             # It was "breaking" when I didn't have the x and y like this.
-            if not revealGrid[y][x]: 
+            if flagGrid[y][x] and not revealGrid[y][x]:
+                screen.blit(flagImg, (x * 60, 100+(y*60)))
+            elif not revealGrid[y][x]: 
                 screen.blit(squareHidden, (x * 60, 100+(y*60))) # you need to do ".blit" to actually print the image to the screen
             else:
                 if bombGrid[y][x]:
@@ -124,10 +140,11 @@ def printMap():
                 else:
                     screen.blit(squareShown, (x * 60, 100+(y*60)))
 
+def printFlags():
+    screen.blit(flagIcon, (0,0))
+    screen.blit(blud[flags], (60,0))
 
-
-leave = False
-
+### Game Loop
 while running:
     ### user input
     # leave this like this in case the user closes
@@ -144,13 +161,21 @@ while running:
                 # saves the x and y pos in an "array"
                 # pos[0] and pos[1]
 
+                leftClick = True
                 update = True
                 buttonReleased = False
             
-                # example
-                print("left button clicked")
-                # print("OG pos X: ", pos[0], " Y: ", pos[1])
-                print("clicked: X: ", pos[0]//60, " Y: ", (pos[1]-100)//60)
+                # # example
+                # print("left button clicked")
+                # # print("OG pos X: ", pos[0], " Y: ", pos[1])
+                # print("clicked: X: ", pos[0]//60, " Y: ", (pos[1]-100)//60)
+            
+            elif pygame.mouse.get_pressed()[2]:
+                pos = returnPos()
+                update = True
+                buttonReleased = False
+                rightClick = True
+                
         
         # elif pygame.mouse.get_pressed()[2]:
         #     print("Right button clicked!")
@@ -172,12 +197,33 @@ while running:
         y = (pos[1]-100)//60
         
         if  (0 <= x <= 9) and (0 <= y <= 9):
-            revealGrid[y][x] = 1
-            if bombGrid[y][x] == 1 :
-                doRevealBombs(EASY[0])
-                running = False
-        else:
-            print("out of bounds!")
+            if leftClick:
+                if flagGrid[y][x] != 1:
+                    revealGrid[y][x] = 1
+                leftClick = False
+
+                if bombGrid[y][x] == 1 and flagGrid[y][x] != 1:
+                    doRevealBombs(EASY[0])
+                    running = False
+                ### end if
+            ### end if
+            
+            elif rightClick:
+                if not flagGrid[y][x] and flags and not revealGrid[y][x]:
+                    flagGrid[y][x] = 1
+                    flags -= 1
+                elif flagGrid[y][x]:
+                    flagGrid[y][x] = 0
+                    flags += 1
+
+                rightClick = False
+                # print("flags: ", flags)
+            ### end elif
+            
+            
+        # else:
+        #     print("out of bounds!")
+        
         update = False
 
 
@@ -189,6 +235,7 @@ while running:
     ### render
     screen.fill("cadetblue3")
     printMap()
+    printFlags()
     
    
     pygame.display.flip()
@@ -200,6 +247,7 @@ while running:
             screen.blit(GGImg, (44, 244))
             pygame.display.flip()
 
+    # game closes after screen is clicked when gameover screen is up
     if running == False:
         while not gameOver:
             for event in pygame.event.get():
