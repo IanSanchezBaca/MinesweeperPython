@@ -49,6 +49,9 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 * 10 bombs randomly spread out
 * 10 flags.
 
+![nutrualImage](writeup/nutrual.png) | ![winImage](writeup/winScreen.png) | ![loseImage](writeup/loseScreen.png)
+
+
 **Currently the only game mode.**
 I did make the code somewhat modular but got lazy halfway through and made almost everything not modular
 
@@ -57,7 +60,8 @@ I did make the code somewhat modular but got lazy halfway through and made almos
 
 This game was honestly not too hard to code. 
 The only difficult part would be to learn how to use python. 
-Since I already have experience making a "game," this time wasn't so difficult. 
+Since I already have experience making a "[game](https://github.com/IanSanchezBaca/RPG_creator_lol/tree/NewStart)," 
+this time wasn't so difficult. 
 It was pretty fun to code this.
 Also I need to learn how I would need to reset the game without having to run it through the command line. 
 I have an idea for this but too lazy to implement.
