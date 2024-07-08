@@ -153,15 +153,22 @@ def doRevealRecursive(y,x):
     
     else:
         if y != 0:
-            doRevealRecursive(y-1, x)
+            doRevealRecursive(y-1, x) # up
         if y != 9:
-            doRevealRecursive(y+1, x)
+            doRevealRecursive(y+1, x) # down
         if x != 0:
-            doRevealRecursive(y, x-1)
+            doRevealRecursive(y, x-1) # left
         if x != 9:
-            doRevealRecursive(y, x+1)
+            doRevealRecursive(y, x+1) # right
+        if x != 0 and y != 0:
+            doRevealRecursive(y-1, x-1) # up-left
+        if x != 9 and y != 9:
+            doRevealRecursive(y+1, x+1) # down-right
+        if x != 9 and y != 0:
+            doRevealRecursive(y-1, x+1) # up-right
+        if x != 0 and y != 9:
+            doRevealRecursive(y+1, x-1) # down-left
     
-    # return
         
 
 def printMap(): # prints the grid and shid
