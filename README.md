@@ -49,9 +49,9 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 * 10 bombs randomly spread out
 * 10 flags.
 <p float="left">
-    <img src="writeup/nutrual.png" width=200 />
-    <img src="writeup/winScreen.png" width=200 />
-    <img src="writeup/loseScreen.png" width=200 />
+    <img src="writeup/nutrual.png" width=215 />
+    <img src="writeup/winScreen.png" width=215 />
+    <img src="writeup/loseScreen.png" width=215 />
 </p>
 
 **Currently the only game mode.**
