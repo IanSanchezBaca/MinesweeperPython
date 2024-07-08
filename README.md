@@ -31,7 +31,7 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 
 * also added new images
 
-07/07/24
+### 07/07/24
 
 * took a little break
 * finished the game
