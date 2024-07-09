@@ -23,7 +23,7 @@ smallWinImag = pygame.transform.scale(winImg, (500, 300))
 running = True
 gameOver = False
 fps = pygame.time.Clock()
-fps.tick(30)
+fps.tick(60)
 EASY = [10, 10] # [the size of the grid, the number of bombs]
 
 testing = False
@@ -117,7 +117,9 @@ flags = EASY[1] # num of flags
 counter = 0
 winCon = 90
 
-blud = {
+blud = { 
+    ### dictionary so that i dont have to use vectors, mainly because i dont know how to use vectors in python
+    ### this is also a lot faster
     0: pygame.image.load("img\\Numbers\\zero.png"),
     1: pygame.image.load("img\\Numbers\\one.png"),
     2: pygame.image.load("img\\Numbers\\two.png"),
@@ -314,7 +316,6 @@ while running:
     printMap() # print the squares
     printFlags() # this one 
     
-   
     pygame.display.flip()
 
     
@@ -332,9 +333,8 @@ while running:
             pygame.display.flip()
             # should display the win image
 
-    # game closes after screen is clicked when gameover screen is up
-    # if not running:
-    NGame = False
+    # game closes after screen is double clicked when gameover screen is up
+    NGame = False # using this bool to check if they 
     if win or lose:
         while not gameOver:
             for event in pygame.event.get():
@@ -346,7 +346,7 @@ while running:
         
         if NGame:
             newGame()
-            NGame = False
+            # NGame = False
 
 
     #############
