@@ -169,8 +169,6 @@ def doRevealRecursive(y,x):
         if x != 0 and y != 9:
             doRevealRecursive(y+1, x-1) # down-left
     
-        
-
 def printMap(): # prints the grid and shid
      for x in range(0, size): # going for size rows
         for y in range(0, size): # going for size colums
@@ -192,9 +190,33 @@ def printFlags(): # prints the number of flags available
     screen.blit(flagIcon, (0,0))
     screen.blit(blud[flags], (60,0))
 
+def newGame():
+    # print("New game!")
+    global running, lose, win, leave, leftClick, rightClick, gameOver # global bools
+
+    running = True
+    lose = False
+    win = False
+    leave = False
+    rightClick = False
+    leftClick = False
+    gameOver = False
+
+    global revealGrid, bombGrid, numGrid, flagGrid # global grids
+
+    revealGrid = initRevealedGrid(EASY[0])
+    bombGrid = initBombGrid(EASY[0], EASY[1])
+    numGrid = initNumGrid(bombGrid)
+    flagGrid = initFlagGrid(EASY[0])
+
+    global counter, flags # random counters
+    counter = 0
+    flags = 10
+### newGame
+
 ### Game Loop
 while running:
-    ### user input
+    ### user input ###
     # leave this like this in case the user closes
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -235,11 +257,8 @@ while running:
         break 
 
 
-    ### update
+    ### update ###
     ## Change the arrays here
-    # if pygame.mouse.get_pressed()[2]:    
-    #     print("uhh2: X: ", x, " Y: ", y)
-    
     if update:
         x = pos[0]//60
         y = (pos[1]-100)//60
@@ -290,37 +309,44 @@ while running:
 
     
 
-    ### render
-    screen.fill("cadetblue3")
-    printMap()
-    printFlags()
+    ### render ###
+    screen.fill("cadetblue3") # fill the background with the color blue
+    printMap() # print the squares
+    printFlags() # this one 
     
    
     pygame.display.flip()
 
     
-    if not running:
-        if lose: ### displaying the "You died image"
-            for i in range(255):
-                GGImg.set_alpha(i)
-                screen.blit(GGImg, (44, 244))
-                pygame.display.flip()
-        elif win:
-            print("You win!") # temp
-            for i in range(255):
-                smallWinImag.set_alpha(i)
-                screen.blit(smallWinImag, (44, 244))
-                pygame.display.flip()
+    # if not running:
+    if lose: ### displaying the "You died image"
+        for i in range(255):
+            GGImg.set_alpha(i)
+            screen.blit(GGImg, (44, 244))
+            pygame.display.flip()
+    elif win:
+        # print("You win!") # temp
+        for i in range(255):
+            smallWinImag.set_alpha(i)
+            screen.blit(smallWinImag, (44, 244))
+            pygame.display.flip()
             # should display the win image
 
     # game closes after screen is clicked when gameover screen is up
-    if not running:
+    # if not running:
+    NGame = False
+    if win or lose:
         while not gameOver:
             for event in pygame.event.get():
                 if pygame.mouse.get_pressed()[0]:
                     gameOver = True
+                    NGame = True
                 if event.type == pygame.QUIT:
                     gameOver = True
+        
+        if NGame:
+            newGame()
+            NGame = False
 
 
     #############
