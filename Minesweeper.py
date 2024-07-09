@@ -11,15 +11,21 @@ import time # only using this for debugging
 pygame.init()
 pygame.display.set_caption("Minesweeper_LOL")
 screen = pygame.display.set_mode((600, 800))
+
+### loading images ###
 grayBG = pygame.image.load("img\GrayBG.png")
 squareHidden = pygame.image.load("img\square60x60.png")
 squareShown = pygame.image.load("img\Revealed60x60.png")
 bombImg = pygame.image.load("img\\bomb.png")
-GGImg = pygame.image.load("img\\deathScreen.jpg")
 flagImg = pygame.image.load("img\\Flag.png")
 flagIcon = pygame.image.load("img\\flagIcon.png")
+
+GGImg = pygame.image.load("img\\deathScreen.png")
+smallLose = pygame.transform.scale(GGImg, (500, 300))
+
 winImg = pygame.image.load("img\\youWin.png")
 smallWinImag = pygame.transform.scale(winImg, (500, 300))
+
 running = True
 gameOver = False
 fps = pygame.time.Clock()
@@ -322,8 +328,8 @@ while running:
     # if not running:
     if lose: ### displaying the "You died image"
         for i in range(255):
-            GGImg.set_alpha(i)
-            screen.blit(GGImg, (44, 244))
+            smallLose.set_alpha(i)
+            screen.blit(smallLose, (44, 244))
             pygame.display.flip()
     elif win:
         # print("You win!") # temp

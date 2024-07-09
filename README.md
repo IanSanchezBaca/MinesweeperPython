@@ -39,6 +39,11 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
     - added recursive function to reveal other empty squares
     - added flags and their functions
 
+### 07/08/24
+
+* finished the function newGame()
+    - now the user can start a new game by double clicking the end screen
+
 
 
 
@@ -55,7 +60,7 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 </p>
 
 **Currently the only game mode.**
-I did make the code somewhat modular but got lazy halfway through and made almost everything not modular
+I did make the code somewhat modular but got lazy halfway through and hard coded everything. 
 
 
 # Conclusion
@@ -65,5 +70,3 @@ The only difficult part would be to learn how to use python.
 Since I already have experience making a "[game](https://github.com/IanSanchezBaca/RPG_creator_lol/tree/NewStart)," 
 this time wasn't so difficult. 
 It was pretty fun to code this.
-Also I need to learn how I would need to reset the game without having to run it through the command line. 
-I have an idea for this but too lazy to implement.
