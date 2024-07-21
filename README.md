@@ -63,6 +63,9 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 I did make the code somewhat modular but got lazy halfway through and hard coded everything. 
 
 
+currently only works for windows lol. Need to fix how the progam loads files. Maybe in another update...
+
+
 # Conclusion
 
 This game was honestly not too hard to code. 
