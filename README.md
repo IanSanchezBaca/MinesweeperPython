@@ -44,7 +44,10 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 * finished the function newGame()
     - now the user can start a new game by double clicking the end screen
 
+### 08/24/24
 
+* uhh... added an executable...
+    * This should work with windows if you run it in the directory.
 
 
 ## Gameplay
@@ -62,8 +65,6 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 **Currently the only game mode.**
 I did make the code somewhat modular but got lazy halfway through and hard coded everything. 
 
-
-currently only works for windows lol. Need to fix how the progam loads files. Maybe in another update...
 
 
 # Conclusion
