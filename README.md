@@ -1,10 +1,8 @@
 # Minesweeper in python
 
-## Introduction... i guess.
-I am using pygame because I was too lazy to set up SDL library for c++.
+## Introduction
+I am using pygame because I didn't wan't to set up the SDL library for c++.
 Also because I can code this on my Windows pc.
-
-Thats it. Explanation over.
 
 ## Documentation
 
