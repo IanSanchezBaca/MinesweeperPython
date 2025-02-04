@@ -61,7 +61,7 @@ Crated a revealed grid which will just be 0 if not revealed or 1 if revealed.
 </p>
 
 **Currently the only game mode.**
-I did make the code somewhat modular but got lazy halfway through and hard coded everything. 
+I did make the code somewhat modular but ended up hard coded in the end.
 
 
 
