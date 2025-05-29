@@ -13,17 +13,17 @@ pygame.display.set_caption("Minesweeper_LOL")
 screen = pygame.display.set_mode((600, 800))
 
 ### loading images ###
-grayBG = pygame.image.load("img\GrayBG.png")
-squareHidden = pygame.image.load("img\square60x60.png")
-squareShown = pygame.image.load("img\Revealed60x60.png")
-bombImg = pygame.image.load("img\\bomb.png")
-flagImg = pygame.image.load("img\\Flag.png")
-flagIcon = pygame.image.load("img\\flagIcon.png")
+grayBG = pygame.image.load("img/GrayBG.png")
+squareHidden = pygame.image.load("img/square60x60.png")
+squareShown = pygame.image.load("img/Revealed60x60.png")
+bombImg = pygame.image.load("img/bomb.png")
+flagImg = pygame.image.load("img/Flag.png")
+flagIcon = pygame.image.load("img/flagIcon.png")
 
-GGImg = pygame.image.load("img\\deathScreen.png")
+GGImg = pygame.image.load("img/deathScreen.png")
 smallLose = pygame.transform.scale(GGImg, (500, 300))
 
-winImg = pygame.image.load("img\\youWin.png")
+winImg = pygame.image.load("img/youWin.png")
 smallWinImag = pygame.transform.scale(winImg, (500, 300))
 
 running = True
@@ -126,17 +126,17 @@ winCon = 90
 blud = { 
     ### dictionary so that i dont have to use vectors, mainly because i dont know how to use vectors in python
     ### this is also a lot faster
-    0: pygame.image.load("img\\Numbers\\zero.png"),
-    1: pygame.image.load("img\\Numbers\\one.png"),
-    2: pygame.image.load("img\\Numbers\\two.png"),
-    3: pygame.image.load("img\\Numbers\\three.png"),
-    4: pygame.image.load("img\\Numbers\\four.png"),
-    5: pygame.image.load("img\\Numbers\\five.png"),
-    6: pygame.image.load("img\\Numbers\\six.png"),
-    7: pygame.image.load("img\\Numbers\\seven.png"),
-    8: pygame.image.load("img\\Numbers\\eight.png"),
-    9: pygame.image.load("img\\Numbers\\nine.png"),
-    10: pygame.image.load("img\\Numbers\\ten.png")
+    0: pygame.image.load("img/Numbers/zero.png"),
+    1: pygame.image.load("img/Numbers/one.png"),
+    2: pygame.image.load("img/Numbers/two.png"),
+    3: pygame.image.load("img/Numbers/three.png"),
+    4: pygame.image.load("img/Numbers/four.png"),
+    5: pygame.image.load("img/Numbers/five.png"),
+    6: pygame.image.load("img/Numbers/six.png"),
+    7: pygame.image.load("img/Numbers/seven.png"),
+    8: pygame.image.load("img/Numbers/eight.png"),
+    9: pygame.image.load("img/Numbers/nine.png"),
+    10: pygame.image.load("img/Numbers/ten.png")
 }
 
 # for x in range(0, size): # going for size rows
